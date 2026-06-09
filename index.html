@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="KeyScope - Modern Keyboard Event Inspector for developers"
+    />
+
+    <title>KeyScope — Keyboard Event Inspector</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="app-shell">
+
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">
+            <span>K</span>
+          </div>
+
+          <div class="brand-copy">
+            <h1>KeyScope</h1>
+            <p>Keyboard Event Inspector</p>
+          </div>
+        </div>
+
+        <button
+          id="themeToggle"
+          class="theme-toggle"
+          aria-label="Toggle theme"
+          type="button"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M21 12.79A9 9 0 0 1 11.21 3
+                        7 7 0 1 0 21 12.79Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </header>
+
+      <section class="hero">
+        <div id="welcomeScreen" class="welcome-screen">
+          <div class="welcome-icon">⌨</div>
+
+          <h2>Press any key to inspect KeyboardEvent data</h2>
+
+          <p>
+            Explore browser keyboard events with a professional developer
+            inspector.
+          </p>
+        </div>
+
+        <div id="inspectorContent" class="inspector-content hidden">
+          <div class="keycap-stage">
+            <div id="keycap" class="keycap" aria-live="polite">
+              <div class="keycap-shadow"></div>
+
+              <div class="keycap-glow"></div>
+
+              <div class="keycap-top">
+                <span id="mainKeyDisplay" class="keycap-label"> A </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="classification-wrap">
+            <span class="classification-label"> Key Classification </span>
+
+            <span id="keyCategory" class="category-badge"> Printable </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel-section">
+        <div class="section-heading">
+          <h3>Event Data</h3>
+          <p>Live KeyboardEvent properties</p>
+        </div>
+
+        <div class="event-grid">
+
+          <article class="data-card" tabindex="0">
+            <div class="card-header">
+              <div>
+                <span class="property-label"> event.key </span>
+              </div>
+
+              <button
+                class="copy-btn"
+                id="copyKey"
+                aria-label="Copy event key"
+                type="button"
+              >
+                Copy
+              </button>
+            </div>
+
+            <div id="eventKey" class="property-value mono">—</div>
+          </article>
+
+          <article class="data-card" tabindex="0">
+            <div class="card-header">
+              <div>
+                <span class="property-label"> event.code </span>
+              </div>
+
+              <button
+                class="copy-btn"
+                id="copyCode"
+                aria-label="Copy event code"
+                type="button"
+              >
+                Copy
+              </button>
+            </div>
+
+            <div id="eventCode" class="property-value mono">—</div>
+          </article>
+
+          <article class="data-card deprecated" tabindex="0">
+            <div class="card-header">
+              <div class="label-group">
+                <span class="property-label"> event.which </span>
+
+                <span class="deprecated-badge" tabindex="0">
+                  Deprecated
+
+                  <span class="tooltip">
+                    event.which is deprecated. Use event.key or event.code
+                    instead.
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            <div id="eventWhich" class="property-value mono">—</div>
+          </article>
+
+          <article class="data-card deprecated" tabindex="0">
+            <div class="card-header">
+              <div class="label-group">
+                <span class="property-label"> event.keyCode </span>
+
+                <span class="deprecated-badge" tabindex="0">
+                  Deprecated
+
+                  <span class="tooltip">
+                    event.keyCode is deprecated. Modern apps should use
+                    event.code.
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            <div id="eventKeyCode" class="property-value mono">—</div>
+          </article>
+        </div>
+      </section>
+      <section class="panel-section">
+        <div class="section-heading">
+          <h3>Modifier States</h3>
+          <p>Realtime keyboard modifier tracking</p>
+        </div>
+
+        <div class="modifier-grid">
+          <div id="ctrlState" class="modifier-card">Ctrl</div>
+
+          <div id="shiftState" class="modifier-card">Shift</div>
+
+          <div id="altState" class="modifier-card">Alt</div>
+
+          <div id="metaState" class="modifier-card">Meta</div>
+
+          <div id="capsState" class="modifier-card">Caps Lock</div>
+        </div>
+      </section>
+      <section class="panel-section">
+        <div class="section-heading">
+          <div>
+            <h3>Key History</h3>
+            <p>Last 9 non-modifier keys</p>
+          </div>
+          <div class="history-hint">ESC clears history</div>
+        </div>
+        <div
+          id="historyContainer"
+          class="history-container"
+          aria-live="polite"
+        ></div>
+      </section>
+
+      <footer class="footer">
+        <p>KeyScope • Premium Keyboard Event Inspector</p>
+      </footer>
+    </div>
+
+    <script src="keycodes.js"></script>
+  </body>
+</html>
